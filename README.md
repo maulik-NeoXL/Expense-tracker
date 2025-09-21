@@ -139,3 +139,4 @@ DATABASE_URL="file:./dev.db"
    - Create a new database
    - Copy the connection string
    - Add it as `DATABASE_URL` in Vercel environment variables
+# Personal Expense Tracker - Updated Sun Sep 21 13:16:40 IST 2025
