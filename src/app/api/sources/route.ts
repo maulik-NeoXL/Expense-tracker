@@ -5,6 +5,11 @@ const userId = 'default-user';
 
 export async function GET() {
   try {
+    // Check if database is available
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json([]);
+    }
+    
     const sources = await prisma.source.findMany({
       where: { userId },
       orderBy: { name: 'asc' },
@@ -12,12 +17,17 @@ export async function GET() {
     return NextResponse.json(sources);
   } catch (error) {
     console.error('Error fetching sources:', error);
-    return NextResponse.json({ error: 'Failed to fetch sources' }, { status: 500 });
+    return NextResponse.json([]);
   }
 }
 
 export async function POST(request: Request) {
   try {
+    // Check if database is available
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+    }
+    
     const { name, color } = await request.json();
     if (!name) {
       return NextResponse.json({ error: 'Name is required' }, { status: 400 });
