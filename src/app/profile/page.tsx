@@ -17,6 +17,29 @@ export default function ProfilePage() {
   const { formatCurrency } = useCurrency();
   const { profileData, loading, error, updateProfile, refetch } = useProfile();
   
+  // All hooks must be declared before any early returns
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    avatar: ''
+  });
+
+  // Update form data when profile data loads
+  React.useEffect(() => {
+    if (profileData) {
+      setFormData({
+        name: profileData.name || '',
+        email: profileData.email || '',
+        avatar: profileData.avatar || ''
+      });
+    }
+  }, [profileData]);
+  
   // Add error boundary for profile data
   if (error) {
     return (
@@ -58,28 +81,6 @@ export default function ProfilePage() {
       </div>
     );
   }
-  
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    avatar: ''
-  });
-
-  // Update form data when profile data loads
-  React.useEffect(() => {
-    if (profileData) {
-      setFormData({
-        name: profileData.name || '',
-        email: profileData.email || '',
-        avatar: profileData.avatar || ''
-      });
-    }
-  }, [profileData]);
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -340,7 +341,7 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatCurrency(profileData.statistics.totalExpenses)}</div>
+              <div className="text-2xl font-bold">{formatCurrency(profileData.monthlyStats?.expenses || 0)}</div>
               <p className="text-xs text-muted-foreground">All time</p>
             </CardContent>
           </Card>
@@ -352,7 +353,7 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatCurrency(profileData.statistics.totalIncomes)}</div>
+              <div className="text-2xl font-bold">{formatCurrency(profileData.monthlyStats?.income || 0)}</div>
               <p className="text-xs text-muted-foreground">All time</p>
             </CardContent>
           </Card>
@@ -364,7 +365,7 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{profileData.statistics.activeCategories}</div>
+              <div className="text-2xl font-bold">0</div>
               <p className="text-xs text-muted-foreground">Active categories</p>
             </CardContent>
           </Card>
@@ -376,7 +377,7 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{profileData.statistics.activeSources}</div>
+              <div className="text-2xl font-bold">0</div>
               <p className="text-xs text-muted-foreground">Income sources</p>
             </CardContent>
           </Card>
@@ -391,7 +392,7 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatCurrency(profileData.statistics.monthlyExpenses)}</div>
+              <div className="text-2xl font-bold">{formatCurrency(profileData.monthlyStats?.expenses || 0)}</div>
               <p className="text-xs text-muted-foreground">This month</p>
             </CardContent>
           </Card>
@@ -403,7 +404,7 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatCurrency(profileData.statistics.monthlyIncomes)}</div>
+              <div className="text-2xl font-bold">{formatCurrency(profileData.monthlyStats?.income || 0)}</div>
               <p className="text-xs text-muted-foreground">This month</p>
             </CardContent>
           </Card>
@@ -415,8 +416,8 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className={`text-2xl font-bold ${profileData.statistics.monthlySavings >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {formatCurrency(profileData.statistics.monthlySavings)}
+              <div className={`text-2xl font-bold ${(profileData.monthlyStats?.savings || 0) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {formatCurrency(profileData.monthlyStats?.savings || 0)}
               </div>
               <p className="text-xs text-muted-foreground">This month</p>
             </CardContent>

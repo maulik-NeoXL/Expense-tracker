@@ -36,12 +36,13 @@ const Homepage = () => {
     );
   }
 
-  const summary = dashboardData?.summary || {
+  const summary = dashboardData || {
     totalExpenses: 0,
-    totalIncomes: 0,
-    totalBudgets: 0,
-    netIncome: 0,
-    remainingBudget: 0,
+    totalIncome: 0,
+    totalSavings: 0,
+    expenses: [],
+    incomes: [],
+    recentTransactions: []
   };
 
   return (
@@ -52,7 +53,7 @@ const Homepage = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-green-700 dark:text-green-300">Total Income</p>
-              <p className="text-2xl font-bold text-green-800 dark:text-green-200">{formatCurrency(summary.totalIncomes)}</p>
+              <p className="text-2xl font-bold text-green-800 dark:text-green-200">{formatCurrency(summary.totalIncome)}</p>
             </div>
             <div className="h-8 w-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
               <svg className="h-4 w-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,7 +81,7 @@ const Homepage = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-blue-700 dark:text-blue-300">Total Savings</p>
-              <p className="text-2xl font-bold text-blue-800 dark:text-blue-200">{formatCurrency(summary.netIncome)}</p>
+              <p className="text-2xl font-bold text-blue-800 dark:text-blue-200">{formatCurrency(summary.totalSavings)}</p>
             </div>
             <div className="h-8 w-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
               <svg className="h-4 w-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,35 +91,6 @@ const Homepage = () => {
           </div>
         </div>
       </div>
-
-      {/* Budget Overview */}
-      {summary.totalBudgets > 0 && (
-        <div className="bg-card border rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Budget Overview</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-purple-50 dark:bg-purple-950/20 hover:bg-purple-100 dark:hover:bg-purple-950/30 border border-purple-200 dark:border-purple-800 rounded-lg p-4 transition-colors duration-200">
-              <h3 className="font-semibold text-purple-800 dark:text-purple-200">Total Budget</h3>
-              <p className="text-2xl font-bold text-purple-900 dark:text-purple-100">{formatCurrency(summary.totalBudgets)}</p>
-            </div>
-            <div className="bg-orange-50 dark:bg-orange-950/20 hover:bg-orange-100 dark:hover:bg-orange-950/30 border border-orange-200 dark:border-orange-800 rounded-lg p-4 transition-colors duration-200">
-              <h3 className="font-semibold text-orange-800 dark:text-orange-200">Remaining</h3>
-              <p className="text-2xl font-bold text-orange-900 dark:text-orange-100">{formatCurrency(summary.remainingBudget)}</p>
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="flex justify-between text-sm text-muted-foreground mb-2">
-              <span>Budget Usage</span>
-              <span>{summary.totalBudgets > 0 ? Math.round((summary.totalExpenses / summary.totalBudgets) * 100) : 0}% used</span>
-            </div>
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-              <div 
-                className="bg-blue-600 dark:bg-blue-500 h-2 rounded-full" 
-                style={{width: `${summary.totalBudgets > 0 ? Math.min((summary.totalExpenses / summary.totalBudgets) * 100, 100) : 0}%`}}
-              ></div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Analysis Chart - Full Width */}
       <div className="bg-card p-4 rounded-lg border">
