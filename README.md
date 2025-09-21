@@ -96,3 +96,42 @@ For production, set these in Vercel dashboard:
 ```env
 DATABASE_URL="your-production-database-url"
 ```
+
+## 🚨 **Production Database Setup**
+
+### **Option 1: Vercel Postgres (Recommended)**
+
+1. **Add Vercel Postgres**:
+   - Go to your Vercel project dashboard
+   - Click "Storage" tab
+   - Click "Create Database" → "Postgres"
+   - Copy the connection string
+
+2. **Set Environment Variable**:
+   - Go to "Settings" → "Environment Variables"
+   - Add `DATABASE_URL` with your Postgres connection string
+
+3. **Deploy**:
+   - Vercel will automatically run `prisma db push` on deployment
+
+### **Option 2: External Database**
+
+Use services like:
+- **Neon** (free PostgreSQL): https://neon.tech
+- **PlanetScale** (MySQL): https://planetscale.com
+- **Railway** (PostgreSQL): https://railway.app
+
+### **Option 3: Quick Fix for Testing**
+
+If you want to test quickly, you can use a temporary database:
+
+1. **Create `.env.local`** for local development:
+```env
+DATABASE_URL="file:./dev.db"
+```
+
+2. **For production**, use a free PostgreSQL database:
+   - Sign up at https://neon.tech
+   - Create a new database
+   - Copy the connection string
+   - Add it as `DATABASE_URL` in Vercel environment variables
