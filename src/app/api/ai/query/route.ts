@@ -161,17 +161,17 @@ async function processFinancialQuery(query: string) {
 
 // RAG-powered response generation
 function generateRAGResponse(query: string, financialData: {
-  expenses: any[];
-  incomes: any[];
-  categories: any[];
-  sources: any[];
+  expenses: Array<{ amount: number; description: string; category: { name: string } }>;
+  incomes: Array<{ amount: number; description: string; source: { name: string } }>;
+  categories: Array<{ name: string }>;
+  sources: Array<{ name: string }>;
   totalExpenses: number;
   totalIncome: number;
   netSavings: number;
   currentMonthTotalExpenses: number;
   currentMonthTotalIncome: number;
-  currentMonthExpenses: any[];
-  currentMonthIncomes: any[];
+  currentMonthExpenses: Array<{ amount: number; description: string; category: { name: string } }>;
+  currentMonthIncomes: Array<{ amount: number; description: string; source: { name: string } }>;
 }) {
   const {
     expenses,

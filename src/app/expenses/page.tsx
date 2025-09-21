@@ -81,7 +81,7 @@ export default function ExpensesPage() {
     }
   };
 
-  const handleEdit = (expense: any) => {
+  const handleEdit = (expense: { id: string; amount: number; description: string; date: string; categoryId: string }) => {
     setEditingExpense(expense);
     setEditData({
       amount: expense.amount.toString(),
@@ -111,6 +111,7 @@ export default function ExpensesPage() {
       setEditingExpense(null);
       setEditData({ amount: '', description: '', categoryId: '' });
     } catch (error) {
+      console.error('Error updating expense:', error);
       toast({
         title: "Error",
         description: "Failed to update expense. Please try again.",
@@ -135,6 +136,7 @@ export default function ExpensesPage() {
           variant: "success",
         });
       } catch (error) {
+        console.error('Error deleting expense:', error);
         toast({
           title: "Error",
           description: "Failed to delete expense. Please try again.",

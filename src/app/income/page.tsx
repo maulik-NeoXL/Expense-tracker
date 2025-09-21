@@ -80,7 +80,7 @@ export default function IncomePage() {
     }
   };
 
-  const handleEdit = (income: any) => {
+  const handleEdit = (income: { id: string; amount: number; description: string; date: string; sourceId: string }) => {
     setEditingIncome(income);
     setEditData({
       amount: income.amount.toString(),
@@ -110,6 +110,7 @@ export default function IncomePage() {
       setEditingIncome(null);
       setEditData({ amount: '', description: '', sourceId: '' });
     } catch (error) {
+      console.error('Error updating income:', error);
       toast({
         title: "Error",
         description: "Failed to update income. Please try again.",
@@ -134,6 +135,7 @@ export default function IncomePage() {
           variant: "success",
         });
       } catch (error) {
+        console.error('Error deleting income:', error);
         toast({
           title: "Error",
           description: "Failed to delete income. Please try again.",
