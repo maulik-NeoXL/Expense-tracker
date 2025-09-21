@@ -111,10 +111,15 @@ export const useExpenses = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(expenseData),
       })
-      if (!response.ok) throw new Error('Failed to create expense')
-      const newExpense = await response.json()
-      setExpenses(prev => [newExpense, ...prev])
-      return newExpense
+      const result = await response.json()
+      
+      if (response.status === 503) {
+        throw new Error(result.error || 'Database not available')
+      }
+      if (!response.ok) throw new Error(result.error || 'Failed to create expense')
+      
+      setExpenses(prev => [result, ...prev])
+      return result
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       throw err
@@ -199,10 +204,15 @@ export const useIncomes = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(incomeData),
       })
-      if (!response.ok) throw new Error('Failed to create income')
-      const newIncome = await response.json()
-      setIncomes(prev => [newIncome, ...prev])
-      return newIncome
+      const result = await response.json()
+      
+      if (response.status === 503) {
+        throw new Error(result.error || 'Database not available')
+      }
+      if (!response.ok) throw new Error(result.error || 'Failed to create income')
+      
+      setIncomes(prev => [result, ...prev])
+      return result
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       throw err
@@ -474,10 +484,15 @@ export const useSources = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(sourceData),
       })
-      if (!response.ok) throw new Error('Failed to create source')
-      const newSource = await response.json()
-      setSources(prev => [...prev, newSource])
-      return newSource
+      const result = await response.json()
+      
+      if (response.status === 503) {
+        throw new Error(result.error || 'Database not available')
+      }
+      if (!response.ok) throw new Error(result.error || 'Failed to create source')
+      
+      setSources(prev => [...prev, result])
+      return result
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       throw err

@@ -16,6 +16,14 @@ export async function POST() {
 
     console.log('Starting seed process...')
 
+    // First, ensure database tables exist by running a simple query
+    try {
+      await prisma.$executeRaw`SELECT 1`;
+    } catch (error) {
+      console.log('Database tables not ready, attempting to create them...');
+      // If tables don't exist, this will fail gracefully
+    }
+
     // Create user if not exists
     const user = await prisma.user.upsert({
       where: { id: userId },

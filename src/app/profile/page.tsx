@@ -450,7 +450,8 @@ export default function ProfilePage() {
                   try {
                     const response = await fetch('/api/seed', { method: 'POST' });
                     const result = await response.json();
-                    if (response.ok) {
+                    
+                    if (result.success) {
                       toast({
                         title: "Sample data added",
                         variant: "success",
@@ -458,7 +459,11 @@ export default function ProfilePage() {
                       // Refetch profile data to update statistics in real-time
                       await refetch();
                     } else {
-                      throw new Error(result.error || 'Failed to add sample data');
+                      toast({
+                        title: "Cannot add sample data",
+                        description: result.message || "Database is not available. Please try again later.",
+                        variant: "destructive",
+                      });
                     }
                   } catch (error) {
                     toast({
