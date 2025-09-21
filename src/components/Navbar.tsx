@@ -5,19 +5,16 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { useTheme } from "next-themes";
-import { useState } from "react";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { useToast } from "@/hooks/use-toast";
 import { useProfile } from "@/hooks/useApi";
 
 const Navbar = () => {
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const { currency, setCurrency } = useCurrency();
   const { toast } = useToast();
   const { profileData } = useProfile();

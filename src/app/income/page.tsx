@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { useIncomes, useCategories, useSources } from '@/hooks/useApi';
+import { useIncomes, useSources } from '@/hooks/useApi';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
-import { X, Edit, Trash2, Save } from 'lucide-react';
+import { X, Edit, Trash2 } from 'lucide-react';
 
 export default function IncomePage() {
   const { incomes, loading, createIncome, updateIncome, deleteIncome, error } = useIncomes();

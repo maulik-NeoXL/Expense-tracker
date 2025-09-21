@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { CategoryType } from '@prisma/client';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     const userId = 'default-user'
 

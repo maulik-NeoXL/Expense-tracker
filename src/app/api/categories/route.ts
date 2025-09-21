@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const userId = searchParams.get('userId') || 'default-user'
     const type = searchParams.get('type') // EXPENSE or INCOME
     
-    const whereClause: any = { userId }
+    const whereClause: { userId: string; type?: string } = { userId }
     if (type) {
       whereClause.type = type
     }

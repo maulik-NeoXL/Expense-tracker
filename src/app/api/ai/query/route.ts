@@ -160,19 +160,29 @@ async function processFinancialQuery(query: string) {
 }
 
 // RAG-powered response generation
-function generateRAGResponse(query: string, financialData: any) {
+function generateRAGResponse(query: string, financialData: {
+  expenses: any[];
+  incomes: any[];
+  categories: any[];
+  sources: any[];
+  totalExpenses: number;
+  totalIncome: number;
+  netSavings: number;
+  currentMonthTotalExpenses: number;
+  currentMonthTotalIncome: number;
+  currentMonthExpenses: any[];
+  currentMonthIncomes: any[];
+}) {
   const {
     expenses,
     incomes,
     categories,
-    sources,
     totalExpenses,
     totalIncome,
     netSavings,
     currentMonthTotalExpenses,
     currentMonthTotalIncome,
-    currentMonthExpenses,
-    currentMonthIncomes
+    currentMonthExpenses
   } = financialData;
 
   const lowerQuery = query.toLowerCase();
@@ -265,7 +275,13 @@ function generateRAGResponse(query: string, financialData: any) {
 }
 
 // Handle general non-financial questions
-function handleGeneralQuestion(query: string, financialData: any) {
+function handleGeneralQuestion(query: string, financialData: {
+  totalExpenses: number;
+  totalIncome: number;
+  netSavings: number;
+  expenses: any[];
+  incomes: any[];
+}) {
   const lowerQuery = query.toLowerCase();
   
   // General knowledge responses

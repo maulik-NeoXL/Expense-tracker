@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
-import { X, Edit, Trash2, Save } from 'lucide-react';
+import { X, Edit, Trash2 } from 'lucide-react';
 
 export default function ExpensesPage() {
   const { expenses, loading, createExpense, updateExpense, deleteExpense, error } = useExpenses();
