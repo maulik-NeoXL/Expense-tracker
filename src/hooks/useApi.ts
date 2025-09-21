@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 const API_BASE = '/api'
 
@@ -253,7 +253,7 @@ export const useCategories = (type?: 'EXPENSE' | 'INCOME') => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       setLoading(true)
       const url = type ? `${API_BASE}/categories?type=${type}` : `${API_BASE}/categories`
@@ -266,7 +266,7 @@ export const useCategories = (type?: 'EXPENSE' | 'INCOME') => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [type])
 
   const createCategory = async (categoryData: {
     name: string

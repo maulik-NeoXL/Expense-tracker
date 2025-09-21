@@ -9,6 +9,7 @@ import {
   Nut,
   Building2,
   Sparkles,
+  User2,
 } from "lucide-react";
 import {
   Sidebar,
@@ -61,6 +62,11 @@ const items = [
     title: "AI",
     url: "/ai",
     icon: Sparkles,
+  },
+  {
+    title: "Profile",
+    url: "/profile",
+    icon: User2,
   },
 ];
 
