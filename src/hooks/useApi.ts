@@ -537,28 +537,30 @@ export const useProfile = () => {
   const [error, setError] = useState<string | null>(null)
 
   const fetchProfile = async () => {
-    // If we already have a promise in flight, wait for it
-    if (profilePromise) {
-      try {
-        const data = await profilePromise;
-        setProfileData(data);
-        setLoading(false);
-        return;
-      } catch (err) {
-        console.error('Profile promise failed:', err);
-        // If the promise failed, we'll try again below
-      }
-    }
-
-    // If we have cached data, use it
-    if (profileCache) {
-      setProfileData(profileCache);
-      setLoading(false);
-      return;
-    }
-
     try {
       setLoading(true)
+      setError(null)
+      
+      // If we already have a promise in flight, wait for it
+      if (profilePromise) {
+        try {
+          const data = await profilePromise;
+          setProfileData(data);
+          setLoading(false);
+          return;
+        } catch (err) {
+          console.error('Profile promise failed:', err);
+          // If the promise failed, we'll try again below
+        }
+      }
+
+      // If we have cached data, use it
+      if (profileCache) {
+        setProfileData(profileCache);
+        setLoading(false);
+        return;
+      }
+
       profilePromise = fetch(`${API_BASE}/profile`).then(async (response) => {
         if (!response.ok) throw new Error('Failed to fetch profile')
         const data = await response.json()
@@ -569,7 +571,20 @@ export const useProfile = () => {
       const data = await profilePromise;
       setProfileData(data)
     } catch (err) {
+      console.error('Profile fetch error:', err);
       setError(err instanceof Error ? err.message : 'Unknown error')
+      // Set fallback data
+      setProfileData({
+        name: 'John Doe',
+        email: 'john@example.com',
+        avatar: null,
+        joinDate: new Date().toLocaleDateString('en-GB'),
+        monthlyStats: {
+          expenses: 0,
+          income: 0,
+          savings: 0
+        }
+      });
     } finally {
       setLoading(false)
       profilePromise = null; // Clear the promise

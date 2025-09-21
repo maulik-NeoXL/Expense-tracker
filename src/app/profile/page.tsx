@@ -17,6 +17,48 @@ export default function ProfilePage() {
   const { formatCurrency } = useCurrency();
   const { profileData, loading, error, updateProfile, refetch } = useProfile();
   
+  // Add error boundary for profile data
+  if (error) {
+    return (
+      <div className="container mx-auto p-6">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">Error Loading Profile</h1>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <Button onClick={() => window.location.reload()}>
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
+  
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="container mx-auto p-6">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+          <p>Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  // Show fallback if no profile data
+  if (!profileData) {
+    return (
+      <div className="container mx-auto p-6">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Profile Not Found</h1>
+          <p className="text-gray-600 mb-4">Unable to load profile data</p>
+          <Button onClick={() => window.location.reload()}>
+            Refresh Page
+          </Button>
+        </div>
+      </div>
+    );
+  }
+  
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
