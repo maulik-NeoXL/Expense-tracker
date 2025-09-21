@@ -327,7 +327,7 @@ export const useCategories = (type?: 'EXPENSE' | 'INCOME') => {
 
   useEffect(() => {
     fetchCategories()
-  }, [type])
+  }, [type, fetchCategories])
 
   return { categories, loading, error, createCategory, updateCategory, deleteCategory, refetch: fetchCategories }
 }
@@ -395,7 +395,14 @@ export const useBudgets = () => {
 
 // Dashboard API
 export const useDashboard = () => {
-  const [dashboardData, setDashboardData] = useState<any>(null)
+  const [dashboardData, setDashboardData] = useState<{
+    totalExpenses: number;
+    totalIncome: number;
+    totalSavings: number;
+    expenses: any[];
+    incomes: any[];
+    recentTransactions: any[];
+  } | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -538,6 +545,7 @@ export const useProfile = () => {
         setLoading(false);
         return;
       } catch (err) {
+        console.error('Profile promise failed:', err);
         // If the promise failed, we'll try again below
       }
     }

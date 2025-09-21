@@ -1,6 +1,5 @@
 "use client";
 
-import { Card } from "./ui/card";
 import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
 

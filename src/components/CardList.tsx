@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card, CardContent, CardFooter, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { SiUpwork, SiNetflix, SiSpotify, SiApple, SiGithub } from "react-icons/si";
+import { SiUpwork } from "react-icons/si";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { useExpenses, useIncomes } from "@/hooks/useApi";
 
