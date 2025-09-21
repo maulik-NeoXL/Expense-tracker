@@ -102,12 +102,14 @@ DATABASE_URL="your-production-database-url"
 ### **Option 1: Vercel Postgres (Recommended)**
 
 1. **Add Vercel Postgres**:
+
    - Go to your Vercel project dashboard
    - Click "Storage" tab
    - Click "Create Database" → "Postgres"
    - Copy the connection string
 
 2. **Set Environment Variable**:
+
    - Go to "Settings" → "Environment Variables"
    - Add `DATABASE_URL` with your Postgres connection string
 
@@ -117,6 +119,7 @@ DATABASE_URL="your-production-database-url"
 ### **Option 2: External Database**
 
 Use services like:
+
 - **Neon** (free PostgreSQL): https://neon.tech
 - **PlanetScale** (MySQL): https://planetscale.com
 - **Railway** (PostgreSQL): https://railway.app
@@ -126,6 +129,7 @@ Use services like:
 If you want to test quickly, you can use a temporary database:
 
 1. **Create `.env.local`** for local development:
+
 ```env
 DATABASE_URL="file:./dev.db"
 ```

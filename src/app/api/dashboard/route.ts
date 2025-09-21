@@ -4,6 +4,18 @@ import { prisma } from '@/lib/prisma'
 // GET /api/dashboard - Get dashboard summary data
 export async function GET(request: NextRequest) {
   try {
+    // Check if database is available
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({
+        totalExpenses: 0,
+        totalIncome: 0,
+        totalSavings: 0,
+        expenses: [],
+        incomes: [],
+        recentTransactions: []
+      });
+    }
+    
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get('userId') || 'default-user'
     

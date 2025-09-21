@@ -4,6 +4,22 @@ import { prisma } from '@/lib/prisma';
 export async function GET() {
   try {
     console.log('Profile API called');
+    
+    // Check if database is available
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({
+        name: 'John Doe',
+        email: 'john@example.com',
+        avatar: null,
+        joinDate: new Date().toLocaleDateString('en-GB'),
+        monthlyStats: {
+          expenses: 0,
+          income: 0,
+          savings: 0
+        }
+      });
+    }
+    
     const userId = 'default-user'; // In a real app, this would come from authentication
 
     // Get user profile data
