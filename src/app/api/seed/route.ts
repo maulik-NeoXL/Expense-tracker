@@ -4,6 +4,14 @@ import { CategoryType } from '@prisma/client';
 
 export async function POST() {
   try {
+    // Check if database is available
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ 
+        message: 'Database not available. Cannot add sample data.',
+        success: false 
+      }, { status: 503 });
+    }
+
     const userId = 'default-user'
 
     console.log('Starting seed process...')
@@ -187,8 +195,9 @@ export async function POST() {
   } catch (error) {
     console.error('❌ Error seeding data:', error);
     return NextResponse.json({ 
-      error: 'Failed to seed data',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      message: 'Failed to add sample data. Database may not be available.',
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
 }

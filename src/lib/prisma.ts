@@ -20,8 +20,12 @@ try {
   })
 } catch (error) {
   console.error('Failed to create Prisma client:', error)
-  // Create a mock client for build time
-  prisma = {} as PrismaClient
+  // Create a mock client that throws errors when used
+  prisma = new Proxy({} as PrismaClient, {
+    get() {
+      throw new Error('Database not available')
+    }
+  })
 }
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma

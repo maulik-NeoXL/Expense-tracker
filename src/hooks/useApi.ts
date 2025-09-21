@@ -86,12 +86,15 @@ export const useExpenses = () => {
   const fetchExpenses = async () => {
     try {
       setLoading(true)
+      setError(null)
       const response = await fetch(`${API_BASE}/expenses`)
       if (!response.ok) throw new Error('Failed to fetch expenses')
       const data = await response.json()
       setExpenses(data)
     } catch (err) {
+      console.error('Expenses fetch error:', err);
       setError(err instanceof Error ? err.message : 'Unknown error')
+      setExpenses([]) // Set empty array on error
     } finally {
       setLoading(false)
     }
@@ -170,12 +173,15 @@ export const useIncomes = () => {
   const fetchIncomes = async () => {
     try {
       setLoading(true)
+      setError(null)
       const response = await fetch(`${API_BASE}/incomes`)
       if (!response.ok) throw new Error('Failed to fetch incomes')
       const data = await response.json()
       setIncomes(data)
     } catch (err) {
+      console.error('Incomes fetch error:', err);
       setError(err instanceof Error ? err.message : 'Unknown error')
+      setIncomes([]) // Set empty array on error
     } finally {
       setLoading(false)
     }
@@ -409,12 +415,23 @@ export const useDashboard = () => {
   const fetchDashboard = async () => {
     try {
       setLoading(true)
+      setError(null)
       const response = await fetch(`${API_BASE}/dashboard`)
       if (!response.ok) throw new Error('Failed to fetch dashboard data')
       const data = await response.json()
       setDashboardData(data)
     } catch (err) {
+      console.error('Dashboard fetch error:', err);
       setError(err instanceof Error ? err.message : 'Unknown error')
+      // Set fallback data when there's an error
+      setDashboardData({
+        totalExpenses: 0,
+        totalIncome: 0,
+        totalSavings: 0,
+        expenses: [],
+        incomes: [],
+        recentTransactions: []
+      })
     } finally {
       setLoading(false)
     }

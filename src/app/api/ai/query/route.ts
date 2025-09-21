@@ -9,6 +9,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Query is required' }, { status: 400 });
     }
 
+    // Check if database is available
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ 
+        response: "I'm sorry, but I can't access your financial data right now. The database is not available. Please try again later.",
+        query: query 
+      });
+    }
+
     // Process the natural language query
     const response = await processFinancialQuery(query);
     
@@ -19,7 +27,10 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('AI Query Error:', error);
-    return NextResponse.json({ error: 'Failed to process query' }, { status: 500 });
+    return NextResponse.json({ 
+      response: "I'm sorry, I encountered an error while processing your query. Please try again.",
+      query: query 
+    });
   }
 }
 
